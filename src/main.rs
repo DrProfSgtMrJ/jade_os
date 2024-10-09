@@ -7,7 +7,8 @@ use core::panic::PanicInfo;
 
 /// Called on panic.
 #[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
+fn panic(info: &PanicInfo) -> ! {
+    println!("{}", info);
     loop {}
 }
 
@@ -15,9 +16,6 @@ fn panic(_info: &PanicInfo) -> ! {
 pub extern "C" fn _start() -> ! {
     // Function is entry point, since the linker looks for a funciton named
     // `_start` by default.
-    use core::fmt::Write;
-    vga_buffer::WRITER.lock().write_str("Hello again").unwrap();
-     write!(vga_buffer::WRITER.lock(), ", some numbers: {} {}", 42, 1.337).unwrap();
+    panic!("Some panic message");
 
-    loop {}
 }
